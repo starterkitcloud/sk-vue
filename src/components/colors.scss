@@ -1,0 +1,51 @@
+// dark theme
+// $base: #000;
+// $primary-dark: #000;
+// $primary-mid: #333;
+// $primary-light: #fff;
+// $dark-tansp: hsla(0, 0, 0,.95);
+// $primary-contrast: #fff;
+//
+// $mid-light: #2d2d2d;
+// $mid-dark: #545454;
+// $font-color: $primary-light;
+// $kitchen-sink:#000;
+// $red-tone:#ff7f7b;
+// $box-shadow-color:rgba(245,245,245,1);
+//light theme
+// $base: #fff;
+// $primary-dark: #bfbfbf;
+// $primary-mid: #acbdbf;
+// $primary-light: #fff;
+// $dark-tansp: rgba(255, 255, 255,0.97);
+// $primary-contrast: #000;
+//
+// $mid-light: #dadada;
+// $mid-dark: #acbdbf;
+// $font-color: #000;
+// $kitchen-sink:#fff;
+// $red-tone:#ff7f7b;
+// $box-shadow-color:rgba(0,0,0,0.75);
+
+
+//experiment with colors here.
+$base: #fff;
+$primary-dark: #bfbfbf;
+
+
+$primary-mid: #acbdbf;//this is the same as mid-dark , why you using it twice?
+
+
+$primary-light: #fff;
+$dark-tansp: rgba(255, 255, 255,0.97);
+$primary-contrast: #000;
+
+//the row light and dark.
+$mid-light: #dadada;
+$mid-dark: #acbdbf;
+
+$font-color: #000;
+
+$kitchen-sink:#fff;
+$red-tone:#ff7f7b;
+$box-shadow-color:rgba(0,0,0,0.75);
