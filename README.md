@@ -1,6 +1,6 @@
-# contacts
+# front end for <https://github.com/starterkitcloud/sk-backend>
 
-> a single page webapp using vue
+> a single page webapp that includes all the basic screens for user management; login, signup, reset password, and "logged in" dashboard.
 
 ## Build Setup
 
