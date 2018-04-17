@@ -1,12 +1,13 @@
 import Vuex from 'vuex';
 import axios from 'axios';
 import ContentApi from '../../api.js';
-const contentApi = new ContentApi();
+
 import qs from 'qs'
 
 let authActions = {
  //authenticates the user
  AUTHENTICATE: async ({commit}, data) =>{
+  const contentApi = new ContentApi();
 		let theData = {
 			username:data.username,
 			password:data.password,
@@ -30,6 +31,7 @@ let authActions = {
 
  //makes sure the token is not expired
 	'CHECK_TOKEN_IS_VALID': async ({commit}) =>{
+  const contentApi = new ContentApi();
 		if(localStorage.getItem('authToken') == null){
 			commit('TOGGLE_LOADING');
 		}

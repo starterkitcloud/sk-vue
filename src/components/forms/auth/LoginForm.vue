@@ -117,10 +117,7 @@ export default {
 
 .login-area-wrap{
  form{
-  border:solid;
   padding:20px;
-  border-color:$primary-contrast;
-  border-width:1px;
  }
 
  .auth-direct{
