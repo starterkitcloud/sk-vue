@@ -11,6 +11,9 @@
   <div class="dash-info">
    <p>Logged in as {{accountDetails.email}}</p>
   </div>
+  <div class="dash-info">
+   <a class="btn btn-primary" @click="signOut()">Logout</a>
+  </div>
  </div>
 </template>
 
