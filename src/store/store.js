@@ -14,8 +14,8 @@ const state = {
 	detailStaged: false,
 	kitchenSink: false,
 	authenticated: false,
-	loading: true,
-	account_details: false,
+	loading: false,
+	accountDetails: false,
 };
 
 export default new Vuex.Store({

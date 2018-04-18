@@ -3,7 +3,7 @@
   <div class="row">
     <div class="container login-area-wrap stnd-form-wrap">
       <div v-if="globalLoad" class="animated-loader">Loading...</div>
-      <div v-else class="col-md-8 col-md-offset-2">
+      <div  class="col-md-8 col-md-offset-2">
 
         <div class="col-md-12 logo-wrap">
           <img src="../../../assets/sk-logo.png">
@@ -51,6 +51,25 @@ export default {
       invalid: false,
     }
   },
+  async mounted(){
+   //check that a token is in localstorage
+   if( localStorage.getItem('authToken') != null ){
+    //if so.... check to see the last time this token has been checked as valid/not expired.
+    //let's just say 15 minutes.
+    let now = new Date()
+    let then = new Date(localStorage.getItem("tokenLastChecked"))
+    let delta = now-then
+
+    if(delta > 900000){
+     console.log("we need to check that this token is valid")
+     let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
+    }
+   }
+
+   if(store.getters.authenticated){
+    this.$router.push('/')
+   }
+  },
   methods: {
    notValidForm(){
     this.submitErrors = [];
@@ -59,8 +78,11 @@ export default {
     setTimeout(()=>{ this.invalid = false }, 300);
    },
    authSuccess(response){
+    localStorage.setItem("authToken", response.data.access_token);
+    localStorage.setItem("tokenLastChecked", new Date())
     this.loading = true;
     this.invalid = false;
+    this.$router.push('/')
    },
    authFailure(e){
     this.invalid = true;
@@ -113,7 +135,6 @@ export default {
  }
 
 }
-
 
 .login-area-wrap{
  form{

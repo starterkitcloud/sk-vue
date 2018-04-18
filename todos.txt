@@ -1,0 +1,1 @@
+modify the token is valid check to only check in increments of 30 minutes so that it doesn't keep spamming the api.

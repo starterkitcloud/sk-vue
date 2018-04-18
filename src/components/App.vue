@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-      <div v-if="authenticated">
+   <router-view/>
+      <!-- <div v-if="authenticated">
        <DashContainer></DashContainer>
       </div>
       <div v-else>
         <LoginForm></LoginForm>
-      </div>
+      </div> -->
       <!--end else in authenticated condition-->
   </div>
 </template>

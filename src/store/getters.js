@@ -22,8 +22,8 @@ const getters = {
 		return state.detailStaged;
 	},
 	accountDetails: state =>{
-		return state.account_details;
-	}
+		return state.accountDetails;
+	},
 };
 
 module.exports = getters;

@@ -25,7 +25,7 @@ export default {
   methods:{
    signOut(){
     localStorage.removeItem('authToken');
-    location.reload();
+    this.$router.push('login')
    }
   },
   computed:{
@@ -39,11 +39,6 @@ export default {
         return store.getters.authenticated;
       }
    },
-   detailStaged: {
-      get(){
-        return store.getters.detailStaged
-      }
-   },
    accountDetails: {
       get(){
         return store.getters.accountDetails
@@ -53,10 +48,13 @@ export default {
   async mounted(){
     let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
     console.log("finished loading")
-    console.log(tokenIsValid)
     if(tokenIsValid){
       store.dispatch('LOAD_ACCOUNT_DETAILS');
     }
+    else{
+     this.$router.push('login')
+    }
+
   }
 }
 </script>
