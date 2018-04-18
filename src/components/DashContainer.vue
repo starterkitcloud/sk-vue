@@ -25,6 +25,8 @@ export default {
   methods:{
    signOut(){
     localStorage.removeItem('authToken');
+    localStorage.removeItem('tokenLastChecked');
+    store.dispatch('LOG_USER_OUT')
     this.$router.push('login')
    }
   },
@@ -46,14 +48,27 @@ export default {
    },
   },
   async mounted(){
-    let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
-    console.log("finished loading")
-    if(tokenIsValid){
-      store.dispatch('LOAD_ACCOUNT_DETAILS');
-    }
-    else{
-     this.$router.push('login')
-    }
+
+   if(localStorage.getItem('authToken') != null){
+    console.log("FUUUUUCK")
+    console.log(localStorage.getItem('authToken'))
+    console.log(localStorage.getItem('authToken'))
+    console.log(localStorage.getItem('authToken'))
+    console.log(localStorage.getItem('authToken'))
+    
+     let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
+     if(tokenIsValid){
+       store.dispatch('LOAD_ACCOUNT_DETAILS');
+     }
+     else{
+      this.signOut()
+      this.$router.push('login')
+     }
+   }
+   else{
+    store.dispatch('LOG_USER_OUT')
+    this.$router.push('login')
+   }
 
   }
 }

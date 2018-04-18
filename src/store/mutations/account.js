@@ -1,6 +1,9 @@
 let accountMutations = {
 	SET_ACCOUNT_DETAILS:(state, data)=>{
-		state.account_details = data;
+		state.accountDetails = data;
+	},
+	TOGGLE_LOADING: (state)=>{
+		state.loading = !state.loading;
 	},
 };
 

@@ -1,6 +1,6 @@
 let layoutMutations = {
- TOGGLE_LOADING: (state)=>{
-  state.loading = !state.loading;
+ SET_LOADER: (state, value)=>{
+  state.loading = value
  },
 }
 

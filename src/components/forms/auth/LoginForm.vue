@@ -3,7 +3,7 @@
   <div class="row">
     <div class="container login-area-wrap stnd-form-wrap">
       <div v-if="globalLoad" class="animated-loader">Loading...</div>
-      <div  class="col-md-8 col-md-offset-2">
+      <div v-else class="col-md-8 col-md-offset-2">
 
         <div class="col-md-12 logo-wrap">
           <img src="../../../assets/sk-logo.png">
@@ -38,8 +38,6 @@
 
 <script>
 import store from '../../../store/store.js'
-import ContentApi from '../../../api.js'
-const contentApi = new ContentApi();
 
 export default {
  data () {
@@ -60,15 +58,18 @@ export default {
     let then = new Date(localStorage.getItem("tokenLastChecked"))
     let delta = now-then
 
-    if(delta > 900000){
-     console.log("we need to check that this token is valid")
+    if(delta > 9){//900000
+     store.dispatch('SET_LOADER', true)
      let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
     }
    }
 
+   //redirect to the dashboard if the user is authenticated.
    if(store.getters.authenticated){
+    store.dispatch('SET_LOADER', false)
     this.$router.push('/')
    }
+
   },
   methods: {
    notValidForm(){
@@ -78,6 +79,7 @@ export default {
     setTimeout(()=>{ this.invalid = false }, 300);
    },
    authSuccess(response){
+    console.log("hello hello hello ")
     localStorage.setItem("authToken", response.data.access_token);
     localStorage.setItem("tokenLastChecked", new Date())
     this.loading = true;
@@ -93,8 +95,10 @@ export default {
 
    async authenticate(){
     this.submitErrors = [];
+    store.dispatch('SET_LOADER', true)
     let resp = await store.dispatch('AUTHENTICATE', this._data)
     if(resp.status == 200){
+     store.dispatch('SET_LOADER', false)
      this.authSuccess(resp);
     }
     else{
