@@ -1,5 +1,7 @@
 <template>
  <div>
+  <div v-if="globalLoad" class="animated-loader">Loading...</div>
+  <div v-else >
   <div class="dash-container">
       <!--end else in authenticated condition-->
       <img src="../assets/sk-logo.png">
@@ -14,6 +16,7 @@
   <div class="dash-info">
    <a class="btn btn-primary" @click="signOut()">Logout</a>
   </div>
+ </div>
  </div>
 </template>
 
@@ -31,10 +34,10 @@ export default {
    }
   },
   computed:{
-   loading:{
-     get(){
-      return store.getters.loading;
-     }
+   globalLoad:{
+    get(){
+     return store.getters.loading;
+    }
    },
    authenticated: {
       get(){
@@ -48,17 +51,12 @@ export default {
    },
   },
   async mounted(){
-
    if(localStorage.getItem('authToken') != null){
-    console.log("FUUUUUCK")
-    console.log(localStorage.getItem('authToken'))
-    console.log(localStorage.getItem('authToken'))
-    console.log(localStorage.getItem('authToken'))
-    console.log(localStorage.getItem('authToken'))
-    
+     store.dispatch('SET_LOADER', true)
      let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
      if(tokenIsValid){
-       store.dispatch('LOAD_ACCOUNT_DETAILS');
+       await store.dispatch('LOAD_ACCOUNT_DETAILS');
+       store.dispatch('SET_LOADER', false)
      }
      else{
       this.signOut()

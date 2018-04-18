@@ -58,7 +58,7 @@ export default {
     let then = new Date(localStorage.getItem("tokenLastChecked"))
     let delta = now-then
 
-    if(delta > 9){//900000
+    if(delta > 900000){//
      store.dispatch('SET_LOADER', true)
      let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
     }
@@ -66,7 +66,6 @@ export default {
 
    //redirect to the dashboard if the user is authenticated.
    if(store.getters.authenticated){
-    store.dispatch('SET_LOADER', false)
     this.$router.push('/')
    }
 
@@ -102,6 +101,7 @@ export default {
      this.authSuccess(resp);
     }
     else{
+     store.dispatch('SET_LOADER', false)
      this.authFailure(resp);
     }
    },
