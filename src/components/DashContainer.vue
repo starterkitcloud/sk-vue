@@ -46,28 +46,38 @@ export default {
    },
    accountDetails: {
       get(){
-        return store.getters.accountDetails
+        return store.getters.accountDetails;
       }
    },
   },
   async mounted(){
-   if(localStorage.getItem('authToken') != null){
-     store.dispatch('SET_LOADER', true)
-     let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
-     if(tokenIsValid){
-       await store.dispatch('LOAD_ACCOUNT_DETAILS');
-       store.dispatch('SET_LOADER', false)
-     }
-     else{
-      this.signOut()
-      this.$router.push('login')
-     }
-   }
-   else{
-    store.dispatch('LOG_USER_OUT')
-    this.$router.push('login')
-   }
+   store.dispatch('SET_LOADER', true);
 
+   if( localStorage.getItem('authToken') != null ){
+    //if so.... check to see the last time this token has been checked as valid/not expired.
+    //let's just say 15 minutes.
+    let now = new Date();
+    let then = new Date(localStorage.getItem("tokenLastChecked"))
+    let delta = now-then;
+
+    if(delta > 900000){//check token is valid every 15 minutes. 
+     store.dispatch('SET_LOADER', true);
+     let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
+
+     if(!tokenIsValid){
+      this.signOut();
+      this.$router.push('login');
+     }
+    }
+    //we assume the token is valid at this point
+    //the only way it wouldn't be valid is if someone deleted the token from the django admin on the api end
+    await store.dispatch('LOAD_ACCOUNT_DETAILS');
+    store.dispatch('SET_LOADER', false);
+   }
+   else{// there is no token
+    store.dispatch('SET_LOADER', false);
+    this.$router.push('login');
+   }
   }
 }
 </script>

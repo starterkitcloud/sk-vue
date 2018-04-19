@@ -53,17 +53,16 @@ export default {
    //check that a token is in localstorage
    if( localStorage.getItem('authToken') != null ){
     //if so.... check to see the last time this token has been checked as valid/not expired.
-    //let's just say 15 minutes.
     let now = new Date()
     let then = new Date(localStorage.getItem("tokenLastChecked"))
     let delta = now-then
 
-    if(delta > 900000){//
+    if(delta > 900000){//check token is valid every 15 minutes.
      store.dispatch('SET_LOADER', true)
      let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
     }
    }
-
+   
    //redirect to the dashboard if the user is authenticated.
    if(store.getters.authenticated){
     this.$router.push('/')
