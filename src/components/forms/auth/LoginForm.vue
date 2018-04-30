@@ -2,23 +2,29 @@
 <template>
  <v-app id="login">
  <v-container  >
-  <v-layout justify-space-around=true>
+
+  <!-- <v-progress-linear v-if="globalLoad" :indeterminate="true"></v-progress-linear> -->
+
+  <v-layout justify-space-around>
    <v-flex xs3 sm2>
-
       <img class="logo-main" src="../../../assets/sk-logo.png">
-
    </v-flex>
 
   </v-layout>
 
   <v-layout align-center justify-center>
    <v-flex sm8 md6  align-center justify-space-around>
-     <v-card   class="elevation-1">
+     <v-card   class="elevation-2">
         <v-card-text>
-            <v-form @submit="doSomething()" v-model="valid" ref="form">
+            <v-alert v-for="error in submitErrors" type="error" :value="true">
+              {{error}}
+            </v-alert>
+
+            <v-form @submit="attemptLogin()" v-model="valid" ref="form">
               <v-text-field
                 label="Username"
                 v-model="username"
+                :rules="usernameRules"
                 required
                 validate-on-blur
               ></v-text-field>
@@ -50,42 +56,6 @@
  </v-container>
  </v-app>
 
-
-
-  <!-- <div class="row">
-    <div class="container login-area-wrap stnd-form-wrap">
-      <div v-if="globalLoad" class="animated-loader">Loading...</div>
-      <div v-else class="col-md-8 col-md-offset-2">
-
-        <div class="col-md-12 logo-wrap">
-
-        </div>
-
-        <div class="col-md-12">
-         <ul class="error-list " v-for="error in submitErrors">
-          <li class="error">{{error}}</li>
-         </ul>
-        </div>
-        <div class="col-md-12 ">
-         <div v-if="loading" class="animated-loader">Loading...</div>
-         <form v-else v-on:submit.prevent="attemptLogin" v-bind:class="{ invalid: invalid }" >
-           <label>Username:</label>
-           <input type="text" name="username" v-model="username" class="form-control" >
-           <br>
-           <label>Password:</label>
-           <input  type="password" name="password" v-model="password" class="form-control">
-           <br>
-           <input type="submit" value="Login" class="btn btn-default submit-btn">
-         </form>
-        </div>
-        <div class="col-md-12">
-         <p class="auth-direct">Not registered? <a  href="#notimplemented">Sign Up</a></p>
-         <p class="auth-direct">Forgot Password? <a  href="#notimplemented">Reset Password</a></p>
-        </div>
-
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -95,7 +65,13 @@ export default {
  data () {
     return {
       username: '',
+      usernameRules: [
+        v => !!v || 'Username is required',
+      ],
       password: '',
+      passwordRules: [
+       v => !!v || 'Password is required',
+      ],
       loading:false,
       submitErrors: [],
       valid: false,
@@ -114,39 +90,32 @@ export default {
      store.dispatch('SET_LOADER', true)
      let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
     }
+    else{
+     //we will assume that this token is still valid and redirect to the dash page.
+     store.dispatch('ASSUME_AUTH')
+    }
    }
-
    //redirect to the dashboard if the user is authenticated.
    if(store.getters.authenticated){
     this.$router.push('/')
    }
-
   },
+
   methods: {
-   notValidForm(){
-    this.submitErrors = [];
-    this.submitErrors.push("You must provide both a username and password.");
-    this.invalid = true;
-    setTimeout(()=>{ this.invalid = false }, 300);
-   },
+
    doSomething(){
-    console.log("hello world. ")
+
    },
    authSuccess(response){
-    console.log("hello hello hello ")
     localStorage.setItem("authToken", response.data.access_token);
     localStorage.setItem("tokenLastChecked", new Date())
     this.loading = true;
-    this.invalid = false;
     this.$router.push('/')
    },
    authFailure(e){
-    this.invalid = true;
     this.loading = false;
     this.submitErrors.push(e.response.data.error_description);
-    setTimeout(()=>{ this.invalid = false }, 300);
    },
-
    async authenticate(){
     this.submitErrors = [];
     store.dispatch('SET_LOADER', true)
@@ -160,14 +129,13 @@ export default {
      this.authFailure(resp);
     }
    },
-
    attemptLogin(){
-    if(this.username == '' || this.password == ''){
-      this.notValidForm();
-    }
-    else{
-     this.authenticate();
-    }
+     if(this.valid){
+      this.authenticate();
+     }
+     else{
+      console.log("form not valid")
+     }
    },
   },
 

@@ -46,6 +46,10 @@ let authActions = {
    commit('TOGGLE_AUTH_STATE', false)
 	},
 
+ 'ASSUME_AUTH':({commit}) =>{
+  commit('TOGGLE_AUTH_STATE', localStorage.getItem('authToken'));
+ }
+
 }
 
 module.exports = authActions;

@@ -1,23 +1,23 @@
 <template>
- <div>
-  <div v-if="globalLoad" class="animated-loader">Loading...</div>
-  <div v-else >
-  <div class="dash-container">
-      <!--end else in authenticated condition-->
-      <img src="../assets/sk-logo.png">
+ <v-app id="dash">
+  <v-container>
+   <v-layout justify-space-around>
+    <v-flex xs3 sm2>
+       <img class="logo-main" src="../assets/sk-logo.png">
+    </v-flex>
+   </v-layout>
+   <v-layout justify-space-around>
+    <v-flex sm6  >
+     <div class="text-xs-center">
+       <h1>Logged in as {{accountDetails.email}}</h1>
+      <h2>start building features now!</h2>
+       <v-btn @click="signOut()" color="primary">Logout</v-btn>
+     </div>
+    </v-flex>
+   </v-layout>
 
-  </div>
-  <div class="dash-info">
-   <h1>Start Building</h1>
-  </div>
-  <div class="dash-info">
-   <p>Logged in as {{accountDetails.email}}</p>
-  </div>
-  <div class="dash-info">
-   <a class="btn btn-primary" @click="signOut()">Logout</a>
-  </div>
- </div>
- </div>
+  </v-container>
+ </v-app>
 </template>
 
 <script>
@@ -60,7 +60,7 @@ export default {
     let then = new Date(localStorage.getItem("tokenLastChecked"))
     let delta = now-then;
 
-    if(delta > 900000){//check token is valid every 15 minutes. 
+    if(delta > 900000){//check token is valid every 15 minutes.
      store.dispatch('SET_LOADER', true);
      let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
 
@@ -83,16 +83,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'colors';
-.dash-container{
- display:flex;
- flex-direction: row;
- justify-content: center;
+.logo-main{
+ width:100%;
 }
-.dash-info{
- display:flex;
- flex-direction: row;
- justify-content: center;
-}
-
 </style>
