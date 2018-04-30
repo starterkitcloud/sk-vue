@@ -15,6 +15,18 @@ let accountActions = {
    console.log(e)
   }
 
+ },
+ CREATE_USER_ACCOUNT : async ({commit}, data)=>{
+  const contentApi = new ContentApi();
+  //get the user info.
+  try{
+   let resp = await axios.post(contentApi.users, data);
+   return resp;
+  }
+  catch(e){
+   console.log(e)
+   return e;
+  }
  }
 
 }

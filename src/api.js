@@ -30,6 +30,10 @@ class ContentApi{
 		return this.uri+'o/token/'
 	}
 
+	get users(){
+		return this.uri+'v1/users/'
+	}
+
 }
 
 module.exports = ContentApi;

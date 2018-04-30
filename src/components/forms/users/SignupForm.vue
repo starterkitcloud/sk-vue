@@ -13,7 +13,19 @@
   </v-layout>
   <br>
 
-  <v-layout align-center justify-center>
+  <v-layout v-if="success" align-center justify-center  transition="scale-transition" origin="center center">
+   <v-flex sm8 md6  align-center justify-space-around>
+     <v-card   class="elevation-4">
+       <v-card-text>
+        <div class="text-xs-center">
+         <h1>Your almost signed up!</h1>
+         <p>Check your email and click on the confirmation link to complete your registration.</p>
+        </div>
+       </v-card-text>
+     </v-card>
+    </v-flex>
+  </v-layout>
+  <v-layout v-else align-center justify-center>
    <v-flex sm8 md6  align-center justify-space-around>
      <v-card   class="elevation-4">
         <v-card-text>
@@ -103,6 +115,7 @@ export default {
       loading:false,
       submitErrors: [],
       valid: false,
+      success: false,
     }
   },
 
@@ -112,9 +125,27 @@ export default {
 
   methods: {
 
-   signUp(){
+   async signUp(){
     if(this.$refs.signupForm.validate()){
-      console.log("sign the user up.")
+
+      let theUser = {
+       'email': this.email,
+       'username':this.username,
+       'password': this.password
+      }
+
+      let resp = await store.dispatch('CREATE_USER_ACCOUNT', theUser)
+      console.log(resp)
+      if(resp.status == 201){
+       this.success = true;
+      }
+      else{
+       console.log('hello world..... ')
+      }
+
+      //on success we need to send an email with a confirmation link.
+      //for now... to finish the frontend let's just show a success message.
+
     }
 
    },
