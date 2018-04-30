@@ -1,12 +1,64 @@
 
 <template>
-  <div class="row">
+ <v-app id="login">
+ <v-container  >
+  <v-layout justify-space-around=true>
+   <v-flex xs3 sm2>
+
+      <img class="logo-main" src="../../../assets/sk-logo.png">
+
+   </v-flex>
+
+  </v-layout>
+
+  <v-layout align-center justify-center>
+   <v-flex sm8 md6  align-center justify-space-around>
+     <v-card   class="elevation-1">
+        <v-card-text>
+            <v-form @submit="doSomething()" v-model="valid" ref="form">
+              <v-text-field
+                label="Username"
+                v-model="username"
+                required
+                validate-on-blur
+              ></v-text-field>
+              <v-text-field
+                label="Password"
+                v-model="password"
+                type="password"
+                required
+              ></v-text-field>
+              <v-btn type="submit" color="primary">Login</v-btn>
+            </v-form>
+        </v-card-text>
+     </v-card>
+   </v-flex>
+  </v-layout>
+
+
+  <v-layout justify-center>
+   <v-flex md6  >
+    <div class="text-xs-center">
+     <br>
+     <p>Not registered? <a  href="#notimplemented">Sign Up</a> </p>
+     <p>Forgot Password? <a  href="#notimplemented">Reset Password</a> </p>
+    </div>
+   </v-flex>
+  </v-layout>
+
+
+ </v-container>
+ </v-app>
+
+
+
+  <!-- <div class="row">
     <div class="container login-area-wrap stnd-form-wrap">
       <div v-if="globalLoad" class="animated-loader">Loading...</div>
       <div v-else class="col-md-8 col-md-offset-2">
 
         <div class="col-md-12 logo-wrap">
-          <img src="../../../assets/sk-logo.png">
+
         </div>
 
         <div class="col-md-12">
@@ -33,7 +85,7 @@
 
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -46,9 +98,10 @@ export default {
       password: '',
       loading:false,
       submitErrors: [],
-      invalid: false,
+      valid: false,
     }
   },
+
   async mounted(){
    //check that a token is in localstorage
    if( localStorage.getItem('authToken') != null ){
@@ -62,7 +115,7 @@ export default {
      let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
     }
    }
-   
+
    //redirect to the dashboard if the user is authenticated.
    if(store.getters.authenticated){
     this.$router.push('/')
@@ -75,6 +128,9 @@ export default {
     this.submitErrors.push("You must provide both a username and password.");
     this.invalid = true;
     setTimeout(()=>{ this.invalid = false }, 300);
+   },
+   doSomething(){
+    console.log("hello world. ")
    },
    authSuccess(response){
     console.log("hello hello hello ")
@@ -127,57 +183,7 @@ export default {
 
 <style lang="scss">
 @import '../../colors';
-
-.logo-wrap{
- display:flex;
- flex-direction: row;
- justify-content: center;
- img{
-  width:200px;
-  height:200px;
- }
-
+.logo-main{
+ width:100%;
 }
-
-.login-area-wrap{
- form{
-  padding:20px;
- }
-
- .auth-direct{
-  margin-top:10px;
-  text-align:center;
-  color:$font-color;
-  a{
-   text-decoration:underline;
-  }
- }
-
- @keyframes shake {
-   10%, 90% {
-     transform: translate3d(-4px, 0, 0);
-   }
-
-   20%, 80% {
-     transform: translate3d(10px, 0, 0);
-   }
-
-   30%, 50%, 70% {
-     transform: translate3d(-10px, 0, 0);
-   }
-
-   40%, 60% {
-     transform: translate3d(4px, 0, 0);
-   }
- }
-
- form.invalid{
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
- }
-
-}
-
 </style>
