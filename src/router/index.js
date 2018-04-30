@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import LoginForm from '../components/forms/auth/LoginForm.vue'
+import SignupForm from '../components/forms/users/SignupForm.vue'
+import ResetPassword from '../components/forms/users/ResetPassword.vue'
 import DashContainer from '../components/DashContainer.vue'
 
 
@@ -20,6 +22,18 @@ export default new Router({
       path: '/login/',
       name: 'login',
       component: LoginForm
+    },
+    {
+      // on successful submission of the form and the 2fa code, will redirect to /thanks/
+      path: '/signup/',
+      name: 'signup',
+      component: SignupForm
+    },
+    {
+      // on successful submission of the form and the 2fa code, will redirect to /thanks/
+      path: '/reset/',
+      name: 'reset',
+      component: ResetPassword
     }
   ]
 })

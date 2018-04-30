@@ -30,7 +30,13 @@
                 validate-on-blur
               ></v-text-field>
 
-
+              <v-text-field
+                label="Email"
+                v-model="email"
+                :rules="emailRules"
+                required
+                validate-on-blur
+              ></v-text-field>
 
               <v-text-field
                 label="Password"
@@ -38,7 +44,13 @@
                 type="password"
                 required
               ></v-text-field>
-              <v-btn type="submit" color="primary">Login</v-btn>
+              <v-text-field
+                label="Repeat Password"
+                v-model="repeatPassword"
+                type="password"
+                required
+              ></v-text-field>
+              <v-btn type="submit" color="primary">Signup</v-btn>
             </v-form>
         </v-card-text>
      </v-card>
@@ -50,8 +62,7 @@
    <v-flex md6  >
     <div class="text-xs-center">
      <br>
-     <p>Not registered? <a  href="#/signup/">Sign Up</a> </p>
-     <p>Forgot Password? <a  href="#/reset/">Reset Password</a> </p>
+     <p>Already registered? <a  href="#/login">Login</a> </p>
     </div>
    </v-flex>
   </v-layout>
@@ -68,11 +79,20 @@ import store from '../../../store/store.js'
 export default {
  data () {
     return {
+     email: '',
+     emailRules: [
+       v => !!v || 'Username is required',
+     ],
+      username: '',
       usernameRules: [
         v => !!v || 'Username is required',
       ],
       password: '',
       passwordRules: [
+       v => !!v || 'Password is required',
+      ],
+      repeatPassword: '',
+      repeatPasswordRules: [
        v => !!v || 'Password is required',
       ],
       loading:false,
@@ -82,64 +102,15 @@ export default {
   },
 
   async mounted(){
-   //check that a token is in localstorage
-   if( localStorage.getItem('authToken') != null ){
-    //if so.... check to see the last time this token has been checked as valid/not expired.
-    let now = new Date()
-    let then = new Date(localStorage.getItem("tokenLastChecked"))
-    let delta = now-then
-
-    if(delta > 900000){//check token is valid every 15 minutes.
-     store.dispatch('SET_LOADER', true)
-     let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
-    }
-    else{
-     //we will assume that this token is still valid and redirect to the dash page.
-     store.dispatch('ASSUME_AUTH')
-    }
-   }
-   //redirect to the dashboard if the user is authenticated.
-   if(store.getters.authenticated){
-    this.$router.push('/')
-   }
+    console.log("mounted")
   },
 
   methods: {
 
-   doSomething(){
+   signUp(){
+    console.log("sign the user up.")
+   },
 
-   },
-   authSuccess(response){
-    localStorage.setItem("authToken", response.data.access_token);
-    localStorage.setItem("tokenLastChecked", new Date())
-    this.loading = true;
-    this.$router.push('/')
-   },
-   authFailure(e){
-    this.loading = false;
-    this.submitErrors.push(e.response.data.error_description);
-   },
-   async authenticate(){
-    this.submitErrors = [];
-    store.dispatch('SET_LOADER', true)
-    let resp = await store.dispatch('AUTHENTICATE', this._data)
-    if(resp.status == 200){
-     store.dispatch('SET_LOADER', false)
-     this.authSuccess(resp);
-    }
-    else{
-     store.dispatch('SET_LOADER', false)
-     this.authFailure(resp);
-    }
-   },
-   attemptLogin(){
-     if(this.valid){
-      this.authenticate();
-     }
-     else{
-      console.log("form not valid")
-     }
-   },
   },
 
   computed:{
