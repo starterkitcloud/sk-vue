@@ -21,7 +21,7 @@
               {{error}}
             </v-alert>
 
-            <v-form @submit="attemptLogin()" v-model="valid" ref="form">
+            <v-form @submit.prevent="attemptLogin()" v-model="valid" ref="form">
               <v-text-field
                 label="Email"
                 v-model="email"
@@ -35,18 +35,6 @@
      </v-card>
    </v-flex>
   </v-layout>
-
-
-  <v-layout justify-center>
-   <v-flex md6  >
-    <div class="text-xs-center">
-     <br>
-     <p>Already registered? <a  href="#/login">Login</a> </p>
-     <p>Forgot Password? <a  href="#notimplemented">Reset Password</a> </p>
-    </div>
-   </v-flex>
-  </v-layout>
-
 
  </v-container>
  </v-app>

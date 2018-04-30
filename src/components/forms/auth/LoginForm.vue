@@ -17,11 +17,11 @@
    <v-flex sm8 md6  align-center justify-space-around>
      <v-card   class="elevation-4">
         <v-card-text>
-            <v-alert v-for="error in submitErrors" type="error" :value="true">
+            <v-alert v-for="error in submitErrors" type="error" :value="true" transition="scale-transition" origin="center center">
               {{error}}
             </v-alert>
 
-            <v-form @submit="attemptLogin()" v-model="valid" ref="form">
+            <v-form @submit.prevent="attemptLogin()" v-model="valid" ref="form" >
               <v-text-field
                 label="Username"
                 v-model="username"
@@ -68,6 +68,7 @@ import store from '../../../store/store.js'
 export default {
  data () {
     return {
+      username: '',
       usernameRules: [
         v => !!v || 'Username is required',
       ],
