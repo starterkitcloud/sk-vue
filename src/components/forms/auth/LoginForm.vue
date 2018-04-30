@@ -21,7 +21,7 @@
               {{error}}
             </v-alert>
 
-            <v-form @submit.prevent="attemptLogin()" v-model="valid" ref="form" >
+            <v-form @submit.prevent="attemptLogin()" v-model="valid" ref="loginForm" >
               <v-text-field
                 label="Username"
                 v-model="username"
@@ -30,14 +30,15 @@
                 validate-on-blur
               ></v-text-field>
 
-
-
               <v-text-field
                 label="Password"
                 v-model="password"
                 type="password"
+                :rules="passwordRules"
+                validate-on-blur
                 required
               ></v-text-field>
+              
               <v-btn type="submit" color="primary">Login</v-btn>
             </v-form>
         </v-card-text>
@@ -134,7 +135,7 @@ export default {
     }
    },
    attemptLogin(){
-     if(this.valid){
+     if(this.$refs.loginForm.validate()){
       this.authenticate();
      }
      else{

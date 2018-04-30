@@ -21,33 +21,37 @@
               {{error}}
             </v-alert>
 
-            <v-form @submit="attemptLogin()" v-model="valid" ref="form">
+            <v-form @submit.prevent="signUp()" v-model="valid" ref="signupForm">
               <v-text-field
                 label="Username"
                 v-model="username"
                 :rules="usernameRules"
-                required
                 validate-on-blur
+                required
               ></v-text-field>
 
               <v-text-field
                 label="Email"
                 v-model="email"
                 :rules="emailRules"
-                required
                 validate-on-blur
+                required
               ></v-text-field>
 
               <v-text-field
                 label="Password"
                 v-model="password"
                 type="password"
+                validate-on-blur
+                :rules="passwordRules"
                 required
               ></v-text-field>
               <v-text-field
                 label="Repeat Password"
                 v-model="repeatPassword"
                 type="password"
+                :rules="repeatPasswordRules"
+                validate-on-blur
                 required
               ></v-text-field>
               <v-btn type="submit" color="primary">Signup</v-btn>
@@ -81,7 +85,7 @@ export default {
     return {
      email: '',
      emailRules: [
-       v => !!v || 'Username is required',
+       v => !!v || 'Email address is required',
      ],
       username: '',
       usernameRules: [
@@ -93,7 +97,8 @@ export default {
       ],
       repeatPassword: '',
       repeatPasswordRules: [
-       v => !!v || 'Password is required',
+       v => !!v || 'Repeat password is required',
+       v => v === this.password || 'Must match the password field',
       ],
       loading:false,
       submitErrors: [],
@@ -102,13 +107,16 @@ export default {
   },
 
   async mounted(){
-    console.log("mounted")
+   console.log("mounted")
   },
 
   methods: {
 
    signUp(){
-    console.log("sign the user up.")
+    if(this.$refs.signupForm.validate()){
+      console.log("sign the user up.")
+    }
+
    },
 
   },
