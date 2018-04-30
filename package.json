@@ -23,6 +23,7 @@
     "avoriaz": "^6.3.0",
     "axios": "^0.17.1",
     "fs": "0.0.1-security",
+    "hoek": "^5.0.3",
     "karma": "^1.7.1",
     "lodash": "^4.17.5",
     "process-env": "^1.1.0",
