@@ -26,7 +26,6 @@ let authActions = {
    return e;
   }
 	},
-
  //makes sure the token is not expired
 	'CHECK_TOKEN_IS_VALID': async ({commit}) =>{
   const contentApi = new ContentApi();
