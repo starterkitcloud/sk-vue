@@ -1,10 +1,12 @@
 
 <template>
  <v-app id="login">
- <v-container  >
-
-  <!-- <v-progress-linear v-if="globalLoad" :indeterminate="true"></v-progress-linear> -->
-
+  <v-container fill-height v-if="globalLoad">
+    <v-layout  flex align-center justify-center>
+      <v-progress-circular :size="70" :width="7"  indeterminate color="primary"></v-progress-circular>
+    </v-layout>
+  </v-container>
+  <v-container v-else>
   <v-layout justify-space-around>
    <v-flex xs3 sm2>
       <img class="logo-main" src="../../../assets/sk-logo.png">
@@ -26,6 +28,8 @@
                 label="Username"
                 v-model="username"
                 :rules="usernameRules"
+                :loading="loading"
+                :disabled="loading"
                 required
                 validate-on-blur
               ></v-text-field>
@@ -35,10 +39,12 @@
                 v-model="password"
                 type="password"
                 :rules="passwordRules"
+                :loading="loading"
+                :disabled="loading"
                 validate-on-blur
                 required
               ></v-text-field>
-              
+
               <v-btn type="submit" color="primary">Login</v-btn>
             </v-form>
         </v-card-text>
@@ -56,7 +62,7 @@
     </div>
    </v-flex>
   </v-layout>
-
+ </div><!--ends the else div-->
 
  </v-container>
  </v-app>
@@ -91,7 +97,7 @@ export default {
     let then = new Date(localStorage.getItem("tokenLastChecked"))
     let delta = now-then
 
-    if(delta > 900000){//check token is valid every 15 minutes.
+    if(delta > 900000){//check token is valid every 15 minutes.900000
      store.dispatch('SET_LOADER', true)
      let tokenIsValid = await store.dispatch('CHECK_TOKEN_IS_VALID');
     }
@@ -122,15 +128,14 @@ export default {
     this.submitErrors.push(e.response.data.error_description);
    },
    async authenticate(){
+    this.loading = true;
     this.submitErrors = [];
-    store.dispatch('SET_LOADER', true)
     let resp = await store.dispatch('AUTHENTICATE', this._data)
     if(resp.status == 200){
-     store.dispatch('SET_LOADER', false)
      this.authSuccess(resp);
     }
     else{
-     store.dispatch('SET_LOADER', false)
+     this.loading=false
      this.authFailure(resp);
     }
    },

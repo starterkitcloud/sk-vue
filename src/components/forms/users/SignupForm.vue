@@ -39,7 +39,10 @@
                 v-model="username"
                 :rules="usernameRules"
                 validate-on-blur
+                :loading="loading"
+                :disabled="loading"
                 required
+
               ></v-text-field>
 
               <v-text-field
@@ -47,6 +50,8 @@
                 v-model="email"
                 :rules="emailRules"
                 validate-on-blur
+                :loading="loading"
+                :disabled="loading"
                 required
               ></v-text-field>
 
@@ -56,6 +61,8 @@
                 type="password"
                 validate-on-blur
                 :rules="passwordRules"
+                :loading="loading"
+                :disabled="loading"
                 required
               ></v-text-field>
               <v-text-field
@@ -63,6 +70,8 @@
                 v-model="repeatPassword"
                 type="password"
                 :rules="repeatPasswordRules"
+                :loading="loading"
+                :disabled="loading"
                 validate-on-blur
                 required
               ></v-text-field>
@@ -127,7 +136,7 @@ export default {
 
    async signUp(){
     if(this.$refs.signupForm.validate()){
-
+      this.loading = true;
       let theUser = {
        'email': this.email,
        'username':this.username,
@@ -140,6 +149,7 @@ export default {
        this.success = true;
       }
       else{
+       this.loading = false;
        this.submitErrors = []
        for (const [key, value] of Object.entries(resp.response.data)) {
 
