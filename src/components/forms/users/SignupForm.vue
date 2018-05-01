@@ -1,7 +1,12 @@
 
 <template>
  <v-app id="login">
- <v-container  >
+  <v-container fill-height v-if="globalLoad">
+    <v-layout  flex align-center justify-center>
+      <v-progress-circular :size="70" :width="7"  indeterminate color="primary"></v-progress-circular>
+    </v-layout>
+  </v-container>
+ <v-container  v-else>
 
   <!-- <v-progress-linear v-if="globalLoad" :indeterminate="true"></v-progress-linear> -->
 

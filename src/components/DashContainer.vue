@@ -1,6 +1,11 @@
 <template>
  <v-app id="dash">
-  <v-container>
+  <v-container fill-height v-if="globalLoad">
+    <v-layout  flex align-center justify-center>
+      <v-progress-circular :size="70" :width="7"  indeterminate color="primary"></v-progress-circular>
+    </v-layout>
+ </v-container>
+  <v-container v-else>
    <v-layout justify-space-around>
     <v-flex xs3 sm2>
        <img class="logo-main" src="../assets/sk-logo.png">
@@ -52,7 +57,6 @@ export default {
   },
   async mounted(){
    store.dispatch('SET_LOADER', true);
-
    if( localStorage.getItem('authToken') != null ){
     //if so.... check to see the last time this token has been checked as valid/not expired.
     //let's just say 15 minutes.
