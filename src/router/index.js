@@ -5,6 +5,8 @@ import LoginForm from '../components/forms/auth/LoginForm.vue'
 import SignupForm from '../components/forms/users/SignupForm.vue'
 import ResetPassword from '../components/forms/users/ResetPassword.vue'
 import DashContainer from '../components/DashContainer.vue'
+import ConfirmAccount from '../components/forms/users/ConfirmAccount.vue'
+
 
 
 Vue.use(Router)
@@ -34,6 +36,12 @@ export default new Router({
       path: '/reset/',
       name: 'reset',
       component: ResetPassword
+    },
+    {
+      // on successful submission of the form and the 2fa code, will redirect to /thanks/
+      path: '/confirm-account/',
+      name: 'confirm',
+      component: ConfirmAccount
     }
   ]
 })

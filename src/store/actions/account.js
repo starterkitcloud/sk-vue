@@ -24,7 +24,18 @@ let accountActions = {
    return resp;
   }
   catch(e){
-   console.log(e)
+   return e;
+  }
+ },
+
+ CONFIRM_USER_ACCOUNT : async ({commit}, data)=>{
+  const contentApi = new ContentApi();
+  //get the user info.
+  try{
+   let resp = await axios.get(contentApi.confirmAccount+'?email='+data.email+'&token='+data.token);
+   return resp;
+  }
+  catch(e){
    return e;
   }
  }

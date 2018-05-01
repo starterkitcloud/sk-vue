@@ -34,6 +34,10 @@ class ContentApi{
 		return this.uri+'v1/users/'
 	}
 
+	get confirmAccount(){
+		return this.uri+'v1/confirm_account/'
+	}
+
 }
 
 module.exports = ContentApi;

@@ -13,12 +13,12 @@
   </v-layout>
   <br>
 
-  <v-layout v-if="success" align-center justify-center  transition="scale-transition" origin="center center">
+  <v-layout v-if="success" align-center justify-center >
    <v-flex sm8 md6  align-center justify-space-around>
      <v-card   class="elevation-4">
        <v-card-text>
         <div class="text-xs-center">
-         <h1>Your almost signed up!</h1>
+         <h1>You're almost done!</h1>
          <p>Check your email and click on the confirmation link to complete your registration.</p>
         </div>
        </v-card-text>
@@ -29,7 +29,7 @@
    <v-flex sm8 md6  align-center justify-space-around>
      <v-card   class="elevation-4">
         <v-card-text>
-            <v-alert v-for="error in submitErrors" type="error" :value="true">
+            <v-alert v-for="error in submitErrors" type="error" :value="true" transition="scale-transition" origin="center center">
               {{error}}
             </v-alert>
 
@@ -75,7 +75,7 @@
 
 
   <v-layout justify-center>
-   <v-flex md6  >
+   <v-flex md6>
     <div class="text-xs-center">
      <br>
      <p>Already registered? <a  href="#/login">Login</a> </p>
@@ -140,12 +140,14 @@ export default {
        this.success = true;
       }
       else{
-       console.log('hello world..... ')
+       this.submitErrors = []
+       for (const [key, value] of Object.entries(resp.response.data)) {
+
+         this.submitErrors.push(value[0]);
+       }
+
+
       }
-
-      //on success we need to send an email with a confirmation link.
-      //for now... to finish the frontend let's just show a success message.
-
     }
 
    },
