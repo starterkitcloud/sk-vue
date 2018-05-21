@@ -1,8 +1,13 @@
 import ContentApi from '../src/api.js'
-const contentApi = new ContentApi();
+
 
 
 describe('Api wrapper', ()=>{
+  const contentApi = new ContentApi();
+  beforeEach(()=>{
+
+  });
+
   it('should set the client id from the process environment variable', ()=>{
     expect(contentApi.clientID).toBe(process.env.API_CLIENT_ID);
   });
@@ -10,13 +15,8 @@ describe('Api wrapper', ()=>{
     expect(contentApi.uri).toBe(process.env.API_URI);
   });
 
-  it('should return data', ()=>{
-   let theData = {
-    username:'spencercooley',
-    password:'pearberry',
-    grant_type: 'password'
-   }
-   contentApi.authToken(theData)
+  it('should return url at all api endpoints', ()=>{
+   expect(contentApi.authToken).toBe(`${process.env.API_URI}o/token/`);
 
   });
 
