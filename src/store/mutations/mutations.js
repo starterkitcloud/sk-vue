@@ -1,4 +1,3 @@
-import ContactSearch from '../../utils.js'
 import authMutations from './auth.js'
 import accountMutations from './account.js'
 import layoutMutations from './layout.js'

@@ -112,6 +112,7 @@ export default {
      email: '',
      emailRules: [
        v => !!v || 'Email address is required',
+       v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email must be valid'
      ],
       username: '',
       usernameRules: [

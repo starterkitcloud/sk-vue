@@ -21,7 +21,7 @@
               {{error}}
             </v-alert>
 
-            <v-form @submit.prevent="attemptLogin()" v-model="valid" ref="form">
+            <v-form @submit.prevent="sendResetRequest()" v-model="valid" ref="resetForm">
               <v-text-field
                 label="Email"
                 v-model="email"
@@ -31,6 +31,7 @@
               ></v-text-field>
               <v-btn type="submit" color="primary">Reset Password</v-btn>
             </v-form>
+
         </v-card-text>
      </v-card>
    </v-flex>
@@ -49,7 +50,8 @@ export default {
     return {
      email: '',
      emailRules: [
-       v => !!v || 'Username is required',
+       v => !!v || 'Email is required',
+       v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email must be valid'
      ],
       loading:false,
       submitErrors: [],
@@ -62,11 +64,11 @@ export default {
   },
 
   methods: {
-
-   signUp(){
-    console.log("sign the user up.")
+   sendResetRequest(){
+    if(this.$refs.resetForm.validate()){
+      console.log("reset the password.")
+    }
    },
-
   },
 
   computed:{

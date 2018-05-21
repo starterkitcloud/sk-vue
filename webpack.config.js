@@ -97,8 +97,8 @@ if (process.env.NODE_ENV === 'development') {
 		new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: '"development"',
-				API_URI: '"https://0fbd24f3.ngrok.io/"',
-				API_CLIENT_ID: '"6kSPObvDLmo7E3pb7up88rtvZqYVU6T35NlSfuOV"'
+				API_URI: '"http://localhost:8000/"',
+				API_CLIENT_ID: '"Rc5O5Srg4RHIgkc9x5bIoQm0uEhLmrMPNbyiyvsQ"'
 			}
 		}),
 	]);
