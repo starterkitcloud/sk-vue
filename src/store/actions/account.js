@@ -29,17 +29,31 @@ let accountActions = {
  },
 
  CONFIRM_USER_ACCOUNT : async ({commit}, data)=>{
-  const contentApi = new ContentApi();
-  //get the user info.
-  try{
-   let resp = await axios.get(contentApi.confirmAccount+'?email='+data.email+'&token='+data.token);
-   return resp;
+    const contentApi = new ContentApi();
+    //get the user info.
+    try{
+     let resp = await axios.get(contentApi.confirmAccount+'?email='+data.email+'&token='+data.token);
+     return resp;
+    }
+    catch(e){
+     return e;
+    }
+  },
+  REQUEST_RESET_PASSWORD : async ({commit}, data)=>{
+   const contentApi = new ContentApi();
+   //get the user info.
+   try{
+    let resp = await axios.get(contentApi.requestResetPassword+'?email='+data.email);
+    return resp;
+   }
+   catch(e){
+    return e;
+   }
   }
-  catch(e){
-   return e;
-  }
- }
+
 
 }
+
+
 
 module.exports = accountActions;

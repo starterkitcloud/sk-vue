@@ -27,7 +27,7 @@ class ContentApi{
 	}
 
 	get authToken(){
-		return this.uri+'o/token/'
+		return this.uri+'v1/token/'
 	}
 
 	get users(){
@@ -36,6 +36,18 @@ class ContentApi{
 
 	get confirmAccount(){
 		return this.uri+'v1/confirm_account/'
+	}
+
+	get requestResetPassword(){
+		return this.uri+'v1/request-password-reset/'
+	}
+
+	get verifyResetToken(){
+		return this.uri+'v1/verify-token/'
+	}
+
+	get resetPassword(){
+		return this.uri+'v1/password-reset/'
 	}
 
 }

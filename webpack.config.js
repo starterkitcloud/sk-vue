@@ -98,7 +98,7 @@ if (process.env.NODE_ENV === 'development') {
 			'process.env': {
 				NODE_ENV: '"development"',
 				API_URI: '"http://localhost:8000/"',
-				API_CLIENT_ID: '"Rc5O5Srg4RHIgkc9x5bIoQm0uEhLmrMPNbyiyvsQ"'
+				API_CLIENT_ID: '"developmentapplication"'
 			}
 		}),
 	]);

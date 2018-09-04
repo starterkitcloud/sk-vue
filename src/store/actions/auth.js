@@ -47,7 +47,31 @@ let authActions = {
 
  'ASSUME_AUTH':({commit}) =>{
   commit('TOGGLE_AUTH_STATE', localStorage.getItem('authToken'));
- }
+  },
+
+ 'CHECK_RESET_TOKEN': async ({commit}, data)=>{
+  const contentApi = new ContentApi();
+  //get the user info.
+  try{
+   let resp = await axios.get(contentApi.verifyResetToken+'?email='+data.email+'&token='+data.token);
+   return resp;
+  }
+  catch(e){
+   return e;
+  }
+  },
+
+  'RESET_PASSWORD': async ({commit}, data)=>{
+   const contentApi = new ContentApi();
+   //get the user info.
+   try{
+    let resp = await axios.post(contentApi.resetPassword, data);
+    return resp;
+   }
+   catch(e){
+    return e;
+   }
+  }
 
 }
 

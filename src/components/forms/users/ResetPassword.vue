@@ -12,26 +12,53 @@
 
   </v-layout>
   <br>
-
-  <v-layout align-center justify-center>
+  <v-layout v-if="success" align-center justify-center >
    <v-flex sm8 md6  align-center justify-space-around>
      <v-card   class="elevation-4">
-        <v-card-text>
+       <v-card-text>
+        <div class="text-xs-center">
+         <h1>Your password has been reset successfully!</h1>
+         <p><a  href="#/login">Login</a> </p>
+        </div>
+       </v-card-text>
+     </v-card>
+    </v-flex>
+  </v-layout>
+  <v-layout v-else align-center justify-center>
+   <v-flex sm8 md6  align-center justify-space-around>
+     <v-container fill-height v-if="globalLoad">
+       <v-layout  flex align-center justify-center>
+         <v-progress-circular :size="70" :width="7"  indeterminate color="primary"></v-progress-circular>
+       </v-layout>
+    </v-container>
+     <v-card v-else  class="elevation-4">
+        <v-card-text v-if='validToken'>
             <v-alert v-for="error in submitErrors" type="error" :value="true">
               {{error}}
             </v-alert>
 
-            <v-form @submit.prevent="sendResetRequest()" v-model="valid" ref="resetForm">
+            <v-form @submit.prevent="sendResetPassword()" v-model="valid" ref="resetForm">
               <v-text-field
-                label="Email"
-                v-model="email"
-                :rules="emailRules"
+                label="new password"
+                v-model="password"
+                :type="'password'"
+                required
+                validate-on-blur
+              ></v-text-field>
+              <v-text-field
+                label="repeat password"
+                v-model="password_repeat"
+                :type="'password'"
+                :rules="passwordRules"
                 required
                 validate-on-blur
               ></v-text-field>
               <v-btn type="submit" color="primary">Reset Password</v-btn>
             </v-form>
 
+        </v-card-text>
+        <v-card-text v-else>
+          The url provided is not valid
         </v-card-text>
      </v-card>
    </v-flex>
@@ -48,26 +75,68 @@ import store from '../../../store/store.js'
 export default {
  data () {
     return {
-     email: '',
-     emailRules: [
+     password: '',
+     password_repeat: '',
+     passwordRules: [
        v => !!v || 'Email is required',
-       v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email must be valid'
+       v => this.password == this.password_repeat || 'password confirmation must match password'
      ],
       loading:false,
       submitErrors: [],
       valid: false,
+      validToken: false,
+      success: false,
     }
   },
 
-  async mounted(){
-    console.log("mounted")
-  },
+  mounted(){
+    this.$nextTick(async ()=> {
+      store.dispatch('SET_LOADER', true)
+      //check to see that token is valid.
+      let theData = {
+        "token": this.$router.history.current.query.token,
+        "email": this.$router.history.current.query.email
+      }
 
+      let resp = await store.dispatch('CHECK_RESET_TOKEN', theData)
+
+      if(resp.status == 200){
+       store.dispatch('SET_LOADER', false)
+       this.validToken = true;
+      }
+      else{
+        store.dispatch('SET_LOADER', false)
+        this.validToken = false
+        //do something else
+      }
+      console.log(resp)
+    })
+  },
   methods: {
-   sendResetRequest(){
-    if(this.$refs.resetForm.validate()){
-      console.log("reset the password.")
-    }
+   async sendResetPassword(){
+     if(this.$refs.resetForm.validate()){
+       this.loading = true;
+
+       let theData = {
+        'new_password': this.password,
+        'token': this.$router.history.current.query.token,
+        'email': this.$router.history.current.query.email
+       }
+
+       let resp = await store.dispatch('RESET_PASSWORD', theData)
+       console.log(resp)
+       if(resp.status == 200){
+        this.success = true;
+       }
+       else{
+        this.loading = false;
+        this.submitErrors = []
+        for (const [key, value] of Object.entries(resp.response.data)) {
+          this.submitErrors.push(value[0]);
+        }
+       }
+     }
+
    },
   },
 

@@ -58,7 +58,7 @@
     <div class="text-xs-center">
      <br>
      <p>Not registered? <a  href="#/signup/">Sign Up</a> </p>
-     <p>Forgot Password? <a  href="#/reset/">Reset Password</a> </p>
+     <p>Forgot Password? <a  href="#/request-reset/">Reset Password</a> </p>
     </div>
    </v-flex>
   </v-layout>
