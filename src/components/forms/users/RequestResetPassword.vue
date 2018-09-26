@@ -77,8 +77,7 @@ export default {
 
   methods: {
    async sendResetRequest(){
-     console.log(this.$router.history.current.query.token)
-     console.log(this.$router.history.current.query.email)
+
      if(this.$refs.resetForm.validate()){
        this.loading = true;
        let theData = {
